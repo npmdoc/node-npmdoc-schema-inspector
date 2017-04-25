@@ -125,7 +125,19 @@
 
         <li>
 
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">schema-inspector.</span>Validation.custom</span>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">schema-inspector.</span>Validation.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">schema-inspector.</span>schema_inspector</span>
 
         </li>
 
@@ -380,6 +392,37 @@
 
     </ol></li>
 
+    <li class="apidocModuleLi"><a href="#apidoc.module.schema-inspector.Validation.custom">module schema-inspector.Validation.custom</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.Validation.custom.type">
+            function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>type
+            <span class="apidocSignatureSpan">(schema, candidate)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.Validation.custom.unique">
+            function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>unique
+            <span class="apidocSignatureSpan">(schema, candidate, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.Validation.custom.validDate">
+            function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>validDate
+            <span class="apidocSignatureSpan">(schema, date)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
     <li class="apidocModuleLi"><a href="#apidoc.module.schema-inspector.Validation.prototype">module schema-inspector.Validation.prototype</a><ol>
 
         <li>
@@ -609,6 +652,73 @@
 
     </ol></li>
 
+    <li class="apidocModuleLi"><a href="#apidoc.module.schema-inspector.schema_inspector">module schema-inspector.schema_inspector</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.Sanitization">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>Sanitization
+            <span class="apidocSignatureSpan">(schema, custom)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.Validation">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>Validation
+            <span class="apidocSignatureSpan">(schema, custom)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.generate">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>generate
+            <span class="apidocSignatureSpan">(schema, n)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.newSanitization">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>newSanitization
+            <span class="apidocSignatureSpan">(schema, custom)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.newValidation">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>newValidation
+            <span class="apidocSignatureSpan">(schema, custom)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.sanitize">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>sanitize
+            <span class="apidocSignatureSpan">(schema, post, custom, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.schema-inspector.schema_inspector.validate">
+            function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>validate
+            <span class="apidocSignatureSpan">(schema, candidate, custom, callback)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -720,7 +830,23 @@
 		}
 		return CandidateGenerator.instance().generate(schema);
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+			for (var key in prop) {
+				if (prop.hasOwnProperty(key)){
+					if (prop[key].optional === true &amp;&amp; _rand.bool() === true) {
+						continue;
+					}
+					if (key !== '*') {
+						o[key] = this.<span class="apidocCodeKeywordSpan">generate</span>(prop[key]);
+					}
+					else {
+						var rk = '__random_key_';
+						var randomKey = rk + 0;
+						var n = _rand.int(1, 9);
+						for (var i = 1; i &lt;= n; i++) {
+							if (!(randomKey in prop)) {
+...</pre></li>
     </ul>
 
 
@@ -750,7 +876,23 @@
     <li>description and source-code<pre class="apidocCodePre">newValidation = function (schema, custom) {
 		return new Validation(schema, custom);
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+		type: 'number', $divisibleBy: 5
+	}
+};
+
+var obj = [ 0, 5, 10, 15, 17, 20];
+
+// -----------------------------------------------------------------------------
+var vdr = SchemaInspector.<span class="apidocCodeKeywordSpan">newValidation</span>(schema);
+
+vdr.validate(obj, function (err, r) {
+	console.log(r);
+	console.log(r.format());
+});
+
+var schema = { strict: true };
+...</pre></li>
     </ul>
 
 
@@ -821,6 +963,10 @@ if (!result.valid)
 ```
 ...</pre></li>
     </ul>
+
+
+
+
 
 
 
@@ -1019,7 +1165,23 @@ var inspector = require('schema-inspector');
 			}
 		], callback);
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+					}
+					var globing = properties['*'];
+					async.eachSeries(Object.keys(post), function (i, next) {
+						if (i in properties) {
+							return next();
+						}
+						self._deeperObject(i);
+						self.<span class="apidocCodeKeywordSpan">_asyncSanitize</span>(globing, post[i], function (err, res) {
+							if (err) { /* Error can safely be ignored here */ }
+							if (typeof res !== 'undefined') {
+								post[i] = res;
+							}
+							self._back();
+							next();
+						});
+...</pre></li>
     </ul>
 
 
@@ -1045,7 +1207,23 @@ var inspector = require('schema-inspector');
 		}, this);
 		return post;
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+			var i;
+			if (typeof properties['*'] !== 'undefined') {
+				for (i in post) {
+					if (i in properties) {
+						continue;
+					}
+					this._deeperObject(i);
+					tmp = this.<span class="apidocCodeKeywordSpan">_sanitize</span>(schema.properties['*'], post[i]);
+					if (typeof tmp !== 'undefined') {
+						post[i]= tmp;
+					}
+					this._back();
+				}
+			}
+			for (i in schema.properties) {
+...</pre></li>
     </ul>
 
 
@@ -1079,7 +1257,23 @@ var inspector = require('schema-inspector');
 				callback(err, post);
 			});
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				}
+			}
+		},
+		exec: function (schema, candidate, callback) {
+			var self = this;
+
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncExec</span>(schema, candidate, callback);
+			}
+			(_typeIs.array(schema.exec) ? schema.exec : [schema.exec]).forEach(function (exec) {
+				if (typeof exec === 'function') {
+					exec.call(self, schema, candidate);
+				}
+			});
+		},
+...</pre></li>
     </ul>
 
 
@@ -1130,7 +1324,23 @@ var inspector = require('schema-inspector');
 			}
 			return post;
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				this._deeperObject(i);
+				this._validate(properties[i], candidate[i]);
+				this._back();
+			}
+		},
+		items: function (schema, candidate, callback) {
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncItems</span>(schema, candidate, callback);
+			}
+			if (!(schema.items instanceof Object) || !(candidate instanceof Object)) {
+				return;
+			}
+			var items = schema.items;
+			var i, l;
+			// If provided schema is an array
+...</pre></li>
     </ul>
 
 
@@ -1192,7 +1402,23 @@ var inspector = require('schema-inspector');
 				return callback(err, post);
 			});
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				if (typeof exec === 'function') {
+					exec.call(self, schema, candidate);
+				}
+			});
+		},
+		properties: function (schema, candidate, callback) {
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncProperties</span>(schema, candidate, callback);
+			}
+			if (!(schema.properties instanceof Object) || !(candidate instanceof Object)) {
+				return;
+			}
+			var properties = schema.properties,
+					i;
+			if (properties['*'] != null) {
+...</pre></li>
     </ul>
 
 
@@ -1725,6 +1951,69 @@ var inspector = require('schema-inspector');
 </div>
 
 <div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.schema-inspector.Validation.custom" id="apidoc.module.schema-inspector.Validation.custom">module schema-inspector.Validation.custom</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.Validation.custom.type" id="apidoc.element.schema-inspector.Validation.custom.type">
+        function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>type
+        <span class="apidocSignatureSpan">(schema, candidate)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">type = function (schema, candidate) {
+		var result;
+		// Custom type
+		if (schema.$type === 'person')
+			result = inspector.validate(personValidation, candidate);
+		// Basic type
+		else
+			result = inspector.validate({ type: schema.$type }, candidate);
+		if (!result.valid)
+			return this.report(result.format());
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.Validation.custom.unique" id="apidoc.element.schema-inspector.Validation.custom.unique">
+        function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>unique
+        <span class="apidocSignatureSpan">(schema, candidate, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">unique = function (schema, candidate, callback) {
+		console.log(this.origin._connection);
+    callback();
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.Validation.custom.validDate" id="apidoc.element.schema-inspector.Validation.custom.validDate">
+        function <span class="apidocSignatureSpan">schema-inspector.Validation.custom.</span>validDate
+        <span class="apidocSignatureSpan">(schema, date)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">validDate = function (schema, date) {
+    if (schema.$validDate === true
+       &amp;&amp; Object.prototype.toString.call(date) === "[object Date]"
+       &amp;&amp; isNaN(date.getTime())) {
+        this.report('must be a valid date');
+    }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.schema-inspector.Validation.prototype" id="apidoc.module.schema-inspector.Validation.prototype">module schema-inspector.Validation.prototype</a></h1>
 
 
@@ -1770,7 +2059,23 @@ var inspector = require('schema-inspector');
 			}
 		], callback);
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+						return next();
+					}
+					async.eachSeries(Object.keys(candidate), function (i, done) {
+						if (i in properties) {
+							return async.nextTick(done);
+						}
+						self._deeperObject(i);
+						self.<span class="apidocCodeKeywordSpan">_asyncValidate</span>(properties['*'], candidate[i], function (err) {
+							self._back();
+							done(err);
+						});
+					}, next);
+				},
+				function (next) {
+					async.eachSeries(Object.keys(properties), function (i, done) {
+...</pre></li>
     </ul>
 
 
@@ -1798,7 +2103,23 @@ var inspector = require('schema-inspector');
 		}, this);
 		return this;
 	}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+					i;
+			if (properties['*'] != null) {
+				for (i in candidate) {
+					if (i in properties) {
+						continue;
+					}
+					this._deeperObject(i);
+					this.<span class="apidocCodeKeywordSpan">_validate</span>(properties['*'], candidate[i]);
+					this._back();
+				}
+			}
+			for (i in properties) {
+				if (i === '*') {
+					continue;
+				}
+...</pre></li>
     </ul>
 
 
@@ -1822,7 +2143,23 @@ var inspector = require('schema-inspector');
 				async.nextTick(done);
 			}, callback);
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				}
+			}
+		},
+		exec: function (schema, candidate, callback) {
+			var self = this;
+
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncExec</span>(schema, candidate, callback);
+			}
+			(_typeIs.array(schema.exec) ? schema.exec : [schema.exec]).forEach(function (exec) {
+				if (typeof exec === 'function') {
+					exec.call(self, schema, candidate);
+				}
+			});
+		},
+...</pre></li>
     </ul>
 
 
@@ -1862,7 +2199,23 @@ var inspector = require('schema-inspector');
 				}, callback);
 			}
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				this._deeperObject(i);
+				this._validate(properties[i], candidate[i]);
+				this._back();
+			}
+		},
+		items: function (schema, candidate, callback) {
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncItems</span>(schema, candidate, callback);
+			}
+			if (!(schema.items instanceof Object) || !(candidate instanceof Object)) {
+				return;
+			}
+			var items = schema.items;
+			var i, l;
+			// If provided schema is an array
+...</pre></li>
     </ul>
 
 
@@ -1910,7 +2263,23 @@ var inspector = require('schema-inspector');
 				}
 			], callback);
 		}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+				if (typeof exec === 'function') {
+					exec.call(self, schema, candidate);
+				}
+			});
+		},
+		properties: function (schema, candidate, callback) {
+			if (typeof callback === 'function') {
+				return this.<span class="apidocCodeKeywordSpan">asyncProperties</span>(schema, candidate, callback);
+			}
+			if (!(schema.properties instanceof Object) || !(candidate instanceof Object)) {
+				return;
+			}
+			var properties = schema.properties,
+					i;
+			if (properties['*'] != null) {
+...</pre></li>
     </ul>
 
 
@@ -2454,6 +2823,252 @@ string')) {
 			});
 		}
 		return this._validate(this._schema, candidate).result();
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+		jobs: {
+			type: 'array',
+			items: { type: 'string', minLength: 1 }
+		},
+		email: { type: 'string', pattern: 'email' }
+	}
+};
+var result = inspector.<span class="apidocCodeKeywordSpan">validate</span>(validation, data);
+if (!result.valid)
+	console.log(result.format());
+/*
+	Property @.email: must match [email], but is equal to "never!"
+*/
+```
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.schema-inspector.schema_inspector" id="apidoc.module.schema-inspector.schema_inspector">module schema-inspector.schema_inspector</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.Sanitization" id="apidoc.element.schema-inspector.schema_inspector.Sanitization">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>Sanitization
+        <span class="apidocSignatureSpan">(schema, custom)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Sanitization(schema, custom) {
+		Inspection.prototype.constructor.call(this, schema, _merge(Sanitization.custom, custom));
+		var _reporting = [];
+
+		this._basicFields = Object.keys(_sanitizationAttribut);
+		this._customFields = Object.keys(this._custom);
+		this.origin = null;
+
+		this.report = function (message) {
+			var newNot = {
+					message: message || 'was sanitized',
+					property: this.userAlias ? (this.userAlias + ' (' + this._dumpStack() + ')') : this._dumpStack()
+			};
+			if (!_reporting.some(function (e) { return e.property === newNot.property; })) {
+				_reporting.push(newNot);
+			}
+		};
+
+		this.result = function (data) {
+			return {
+				data: data,
+				reporting: _reporting,
+				format: function () {
+					return this.reporting.map(function (i) {
+						return 'Property ' + i.property + ' ' + i.message;
+					}).join('\n');
+				}
+			};
+		};
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.Validation" id="apidoc.element.schema-inspector.schema_inspector.Validation">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>Validation
+        <span class="apidocSignatureSpan">(schema, custom)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Validation(schema, custom) {
+		Inspection.prototype.constructor.call(this, schema, _merge(Validation.custom, custom));
+		var _error = [];
+
+		this._basicFields = Object.keys(_validationAttribut);
+		this._customFields = Object.keys(this._custom);
+		this.origin = null;
+
+		this.report = function (message, code, reason) {
+			var newErr = {
+				code: code || this.userCode || null,
+				reason: reason || 'unknown',
+				message: this.userError || message || 'is invalid',
+				property: this.userAlias ? (this.userAlias + ' (' + this._dumpStack() + ')') : this._dumpStack()
+			};
+			_error.push(newErr);
+			return this;
+		};
+
+		this.result = function () {
+			return {
+				error: _error,
+				valid: _error.length === 0,
+				format: function () {
+					if (this.valid === true) {
+						return 'Candidate is valid';
+					}
+					return this.error.map(function (i) {
+						return 'Property ' + i.property + ': ' + i.message;
+					}).join('\n');
+				}
+			};
+		};
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.generate" id="apidoc.element.schema-inspector.schema_inspector.generate">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>generate
+        <span class="apidocSignatureSpan">(schema, n)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generate = function (schema, n) {
+		if (typeof n === 'number') {
+			var r = new Array(n);
+			for (var i = 0; i &lt; n; i++) {
+				r[i] = CandidateGenerator.instance().generate(schema);
+			}
+			return r;
+		}
+		return CandidateGenerator.instance().generate(schema);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+			for (var key in prop) {
+				if (prop.hasOwnProperty(key)){
+					if (prop[key].optional === true &amp;&amp; _rand.bool() === true) {
+						continue;
+					}
+					if (key !== '*') {
+						o[key] = this.<span class="apidocCodeKeywordSpan">generate</span>(prop[key]);
+					}
+					else {
+						var rk = '__random_key_';
+						var randomKey = rk + 0;
+						var n = _rand.int(1, 9);
+						for (var i = 1; i &lt;= n; i++) {
+							if (!(randomKey in prop)) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.newSanitization" id="apidoc.element.schema-inspector.schema_inspector.newSanitization">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>newSanitization
+        <span class="apidocSignatureSpan">(schema, custom)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">newSanitization = function (schema, custom) {
+		return new Sanitization(schema, custom);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.newValidation" id="apidoc.element.schema-inspector.schema_inspector.newValidation">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>newValidation
+        <span class="apidocSignatureSpan">(schema, custom)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">newValidation = function (schema, custom) {
+		return new Validation(schema, custom);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+		type: 'number', $divisibleBy: 5
+	}
+};
+
+var obj = [ 0, 5, 10, 15, 17, 20];
+
+// -----------------------------------------------------------------------------
+var vdr = SchemaInspector.<span class="apidocCodeKeywordSpan">newValidation</span>(schema);
+
+vdr.validate(obj, function (err, r) {
+	console.log(r);
+	console.log(r.format());
+});
+
+var schema = { strict: true };
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.sanitize" id="apidoc.element.schema-inspector.schema_inspector.sanitize">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>sanitize
+        <span class="apidocSignatureSpan">(schema, post, custom, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">sanitize = function (schema, post, custom, callback) {
+		if (arguments.length === 3 &amp;&amp; typeof custom === 'function') {
+			callback = custom;
+			custom = null;
+		}
+		return new Sanitization(schema, custom).sanitize(post, callback);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+			splitWith: ',',
+			items: { type: 'string', rules: ['trim', 'title'] }
+		},
+		email: { type: 'string', rules: ['trim', 'lower'] }
+	}
+};
+// Let's update the data
+inspector.<span class="apidocCodeKeywordSpan">sanitize</span>(sanitization, data);
+/*
+data is now:
+{
+	firstname: 'Sterling',
+	lastname: 'Archer',
+	jobs: ['Special Agent', 'Cocaine Dealer'],
+	email: 'never!'
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.schema-inspector.schema_inspector.validate" id="apidoc.element.schema-inspector.schema_inspector.validate">
+        function <span class="apidocSignatureSpan">schema-inspector.schema_inspector.</span>validate
+        <span class="apidocSignatureSpan">(schema, candidate, custom, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">validate = function (schema, candidate, custom, callback) {
+		if (arguments.length === 3 &amp;&amp; typeof custom === 'function') {
+			callback = custom;
+			custom = null;
+		}
+		return new Validation(schema, custom).validate(candidate, callback);
 	}</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 		jobs: {
